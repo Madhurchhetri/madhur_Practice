@@ -6,7 +6,7 @@ const Paginantion = ({setCurrentPage , totalProducts ,productPerPage}) => {
         pageNumber.push(i);
     }
   return (
-    <div>
+    <div className='flex gap-2'>
     {
         pageNumber.map((number)=>{
             return(

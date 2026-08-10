@@ -22,8 +22,7 @@ const App = () => {
     fetchData()
   },[])
   return (
-    <div className='flex flex-col justify-center items-center' >
-      <h1>hello</h1>
+    <div className='flex flex-col justify-center items-center h-screen' >
       <div className='w-full flex justify-center items-center flex-wrap gap-4'>
       {
         
