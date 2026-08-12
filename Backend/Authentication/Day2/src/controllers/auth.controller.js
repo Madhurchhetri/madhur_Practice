@@ -1,11 +1,11 @@
 
-const { registerService } = require('../services/auth.service');
+const { registerService, loginService } = require('../services/auth.service');
 
 let registerController = async (req, res)=>{
     
-    let {acessToken , refreshToken , newUser}  = await registerService(req.body)
+    let {accessToken , refreshToken , newUser}  = await registerService(req.body)
 
-    res.cookie('accessToken' , acessToken,{
+    res.cookie('accessToken' , accessToken,{
         httpOnly: true,
         sameSite : "lax",
         secure : false,
@@ -24,8 +24,29 @@ let registerController = async (req, res)=>{
     })
 }
 
-let loginController = async ()=>{
-    
-}
+let loginController = async (req, res) => {
+
+    let { accessToken, refreshToken, isExisted } =
+        await loginService(req.body);
+
+    res.cookie('accessToken', accessToken, {
+        httpOnly: true,
+        sameSite: "lax",
+        secure: false,
+        maxAge: 24 * 60 * 60 * 1000,
+    });
+
+    res.cookie('refreshToken', refreshToken, {
+        httpOnly: true,
+        sameSite: "lax",
+        secure: false,
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    return res.status(200).json({
+        message: "login successfully",
+        user: isExisted
+    });
+};
 
 module.exports = {registerController,loginController}

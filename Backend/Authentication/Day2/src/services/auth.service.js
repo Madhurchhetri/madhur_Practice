@@ -13,9 +13,8 @@ let registerService = async (data)=>{
         email,
     })
 
-    if(isExisted) return res.status(401).json({
-        message : "this email already exist"
-    })
+    if(isExisted) {throw new Error("this email already isExisted")};
+    
 
     let hasPass = bcrypt.hashSync( password , 10 );
 
@@ -25,11 +24,14 @@ let registerService = async (data)=>{
         password :hasPass
     })
 
-    let acessToken = generateAccessToken(newUser._id);
+    let accessToken = generateAccessToken(newUser._id);
     let refreshToken = generateRefreshToken(newUser._id);
 
+        newUser.refreshToken = refreshToken;
+        await newUser.save();
+
     return {
-        acessToken , refreshToken , newUser
+        accessToken , refreshToken , newUser
     }
 
     } catch (error) {
@@ -38,40 +40,42 @@ let registerService = async (data)=>{
     }
 }
 
-let loginService = async (data)=>{
+let loginService = async (data) => {
     try {
-        let {email ,password} = data
-        if(!email || !password) return res.status(400).json({
-        message : "all fields are required "
-    })
+        let { email, password } = data;
 
-    let isExisted = await userModel.findOne({
-        email,
-    })
+        if (!email || !password) {
+            throw new Error("All fields are required");
+        }
 
-    if(isExisted) return res.status(401).json({
-        message : "this email already exist"
-    })
+        let isExisted = await userModel.findOne({ email });
 
-    let hasPass = bcrypt.hashSync( password , 10 );
+        if (!isExisted) {
+            throw new Error("User not found");
+        }
 
-    let newUser = await userModel.create({
-        name, 
-        email,
-        password :hasPass
-    })
+        let hasPass = bcrypt.compareSync(password, isExisted.password);
 
-    let acessToken = generateAccessToken(newUser._id);
-    let refreshToken = generateRefreshToken(newUser._id);
+        if (!hasPass) {
+            throw new Error("Invalid credentials");
+        }
 
-    return {
-        acessToken , refreshToken , newUser
-    }
+        let accessToken = generateAccessToken(isExisted._id);
+        let refreshToken = generateRefreshToken(isExisted._id);
+
+        isExisted.refreshToken = refreshToken;
+        await isExisted.save();
+
+        return {
+            accessToken,
+            refreshToken,
+            isExisted
+        };
 
     } catch (error) {
-        throw new Error("error", error);
-        
+        console.log(error);
+        throw error;
     }
-}
+};
 
 module.exports = {registerService,loginService }
