@@ -1,7 +1,7 @@
 let jwt = require('jsonwebtoken');
 let userModel = require('../models/user.model');
 
-let authMiddleware = async (req,res,next)=>{
+let authMiddleware = async (req, res, next)=>{
     try{
         let accessToken = req.cookies.accessToken;
         if(!accessToken) return res.status(401).json({

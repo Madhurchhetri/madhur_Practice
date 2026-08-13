@@ -1,6 +1,7 @@
 let cookieParser = require('cookie-parser');
 let express = require('express')
 let authRoutes = require('./routes/auth.routes')
+let homeRoutes = require('./routes/home.routes')
  
 let app = express();
 
@@ -12,5 +13,6 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/auth', authRoutes)
+app.use('/api/home' , homeRoutes)
 
 module.exports = app;

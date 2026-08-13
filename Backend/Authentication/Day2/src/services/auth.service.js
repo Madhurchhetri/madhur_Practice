@@ -1,5 +1,7 @@
 let userModel = require('../models/user.model');
 let bcrypt = require('bcrypt');
+let jwt = require('jsonwebtoken');
+
 const { generateAccessToken, generateRefreshToken } = require('../utils/generateToken');
 
 let registerService = async (data)=>{
@@ -78,4 +80,30 @@ let loginService = async (data) => {
     }
 };
 
-module.exports = {registerService,loginService }
+let getAccessTokenService = async (refreshToken) => {
+
+    let decoded = jwt.verify(
+        refreshToken,
+        process.env.JWT_REFRESH_SECRET
+    );
+
+    console.log("DECODED:", decoded);
+
+    let user = await userModel.findById(decoded.id);
+
+    console.log("USER:", user);
+
+    if (!user) {
+        throw new Error("User not found for this refresh token");
+    }
+
+    if (refreshToken !== user.refreshToken) {
+        throw new Error("Refresh token mismatch");
+    }
+
+    let accessToken = generateAccessToken(user._id);
+
+    return accessToken;
+};
+
+module.exports = {registerService,loginService,getAccessTokenService }
