@@ -1,121 +1,51 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import Pagination from './component/Pagination';
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const[products , setProducts] = useState([]);
+  const[currentPage , setCurrentPage] = useState(1)
+  const[productPerPage , setProductPerPage] = useState([10])
 
+  const fetchData = async ()=>{
+    const res = await axios.get('https://dummyjson.com/products')
+    console.log(res.data.products);
+    setProducts(res.data.products); 
+  }
+
+  const lastProductPage = currentPage * productPerPage
+  const firstProductPage = lastProductPage - productPerPage
+  const currentProductPage = products.slice(firstProductPage,lastProductPage)
+
+  useEffect(()=>{
+    fetchData()
+  },[])
+  
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+    <div className='flex flex-col justify-center items-center'>
+    <h1 className='text-white'>Pagination</h1>
+    <div className='flex justify-center items-center flex-wrap gap-4 px-4 py-4'>
+      
+      {
+        currentProductPage.map((item)=>{
+          return(
+            <div
+            className='w-[300px] h-[300px] border-2 rounded flex flex-col justify-center items-center gap-2'
+             key={item.id}>
+            <img 
+            className='w-[150px] h-[150px]'
+             src={item.images} alt={item.title} />
+              <h1 className='text-white'>{item.title}</h1>
+            </div>
+          )
+        })
+      }
+    </div>
+    <div>
+      
+      <Pagination totalProducts = {products.length} setCurrentPage={setCurrentPage} productPerPage={productPerPage}/>
+    </div>
+    </div>
   )
 }
 
