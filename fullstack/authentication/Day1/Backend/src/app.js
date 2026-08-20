@@ -1,9 +1,15 @@
 let express = require('express')
 let cookieParser = require('cookie-parser')
+let cors = require('cors')
 let authRoutes = require('./routes/auth.route')
 let homeRoutes = require('.//routes/home.route')
 
 let app = express()
+
+app.use(cors({
+    origin : "http://localhost:5173",
+    credentials: true,
+}))
 
 app.use(express.json())
 app.use(cookieParser())
