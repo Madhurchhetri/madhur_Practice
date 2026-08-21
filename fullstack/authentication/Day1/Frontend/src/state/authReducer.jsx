@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-let authSlice = createSlice({
+export let authSlice = createSlice({
     name:"auth",
     initialState:{
         user:null,
@@ -11,3 +11,5 @@ let authSlice = createSlice({
         }
     }
 });
+
+export let {addUser} = authSlice.actions
