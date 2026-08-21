@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router'
 import AuthLayout from '../layout/AuthLayout'
 import Login from '../pages/Login'
@@ -9,6 +9,9 @@ import Public from './protected/Public'
 import Protected from './protected/Protected'
 
 const AppRoutes = () => {
+    useEffect(()=>{
+        (()=>{})()
+    },[])
     let router = createBrowserRouter([
         {
             path:"/",
