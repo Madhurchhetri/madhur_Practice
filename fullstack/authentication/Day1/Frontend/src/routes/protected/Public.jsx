@@ -4,7 +4,8 @@ import { Navigate, Outlet } from 'react-router'
 import { store } from '../../app/store'
 
 const Public = () => {
-    let {user} = useSelector(store=>store.auth)
+    let {user,isLoading} = useSelector(store=>store.auth)
+    if(isLoading) return <h1>loading....</h1>
     if(user) return <Navigate to={'/home'} />
   return <Outlet/>
 }

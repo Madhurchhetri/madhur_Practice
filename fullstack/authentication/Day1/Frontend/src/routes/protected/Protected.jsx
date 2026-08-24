@@ -3,9 +3,11 @@ import { useSelector } from 'react-redux'
 import { Navigate, Outlet } from 'react-router'
 
 const Protected = () => {
-    let {user} = useSelector(store=> store.auth)
+    let {user , isLoading} = useSelector(store=> store.auth)
 
-    if(!user) return <Navigate to="/"/>
+    if(isLoading) return <h1>loading....</h1>
+
+    if(!user) return <Navigate to={"/"}/>
   return <Outlet/>
 }
 

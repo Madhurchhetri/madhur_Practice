@@ -7,10 +7,25 @@ import MainLayout from '../layout/mainLayout'
 import Home from '../pages/Home'
 import Public from './protected/Public'
 import Protected from './protected/Protected'
+import { axiosInstance } from '../config/axiosInstance'
+import { useDispatch } from 'react-redux'
+import { addUser, removeUser } from '../state/authReducer'
 
 const AppRoutes = () => {
+    let dispatch = useDispatch()
     useEffect(()=>{
-        (()=>{})()
+        (async()=>{
+            try {
+                let res = await axiosInstance.get('/api/auth/me');
+                console.log(res);
+                dispatch(addUser(res?.data?.user))
+                
+            } catch (error) {
+                dispatch(removeUser())
+                console.log("error in me api ", error);
+                
+            }
+        })()
     },[])
     let router = createBrowserRouter([
         {
