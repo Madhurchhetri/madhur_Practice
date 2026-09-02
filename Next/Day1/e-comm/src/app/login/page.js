@@ -5,8 +5,10 @@ import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { api } from "@/lib/api";
+import { useRouter } from "next/navigation";
 
 const LoginPage = () => {
+    let router = useRouter()
     const [formData , setFormData] = useState({})
     console.log(formData);
     
@@ -18,7 +20,8 @@ const LoginPage = () => {
         e.preventDefault();
         try {
             const res = await api.post('/api/auth/login' , formData)
-            console.log(res);
+            // console.log(res);
+            router.push('/home')
             
         } catch (error) {
             console.log("error in login submit" , error);
