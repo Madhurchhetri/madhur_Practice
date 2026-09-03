@@ -6,8 +6,11 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { api } from "@/lib/api";
 import { useRouter } from "next/navigation";
+import PublicRoute from "@/components/PublicRoute";
+import { useAuth } from "@/context/authContext";
 
 const LoginPage = () => {
+    let {hydrateUser} = useAuth();
     let router = useRouter()
     const [formData , setFormData] = useState({})
     console.log(formData);
@@ -21,7 +24,9 @@ const LoginPage = () => {
         try {
             const res = await api.post('/api/auth/login' , formData)
             // console.log(res);
-            router.push('/home')
+            // router.push('/home')
+            hydrateUser();
+            router.push('/layout/home')
             
         } catch (error) {
             console.log("error in login submit" , error);
@@ -29,6 +34,7 @@ const LoginPage = () => {
         }
     }
   return (
+    <PublicRoute>
     <div className="flex min-h-screen items-center justify-center bg-background px-4 py-10 text-foreground">
       <div className="w-full max-w-md">
 
@@ -109,6 +115,7 @@ const LoginPage = () => {
 
       </div>
     </div>
+    </PublicRoute>
   );
 };
 

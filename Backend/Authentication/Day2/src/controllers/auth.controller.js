@@ -1,5 +1,5 @@
 
-const { registerService, loginService, getAccessTokenService } = require('../services/auth.service');
+const { registerService, loginService, getAccessTokenService , logoutService } = require('../services/auth.service');
 
 let registerController = async (req, res)=>{
     
@@ -49,6 +49,37 @@ let loginController = async (req, res) => {
     });
 };
 
+let logoutController = async (req, res) => {
+    try {
+        let refreshToken = req.cookies.refreshToken;
+
+        await logoutService(refreshToken);
+
+        res.clearCookie('accessToken', {
+            httpOnly: true,
+            sameSite: "none",
+            secure: true,
+        });
+
+        res.clearCookie('refreshToken', {
+            httpOnly: true,
+            sameSite: "none",
+            secure: true,
+        });
+
+        return res.status(200).json({
+            message: "logout successfully"
+        });
+
+    } catch (error) {
+        console.log(error);
+
+        return res.status(500).json({
+            message: "Logout failed"
+        });
+    }
+};
+
 let getAccessTokenController = async (req, res)=>{
     let refreshToken = req.cookies.refreshToken;
     if(!refreshToken) return res.status(401).json({
@@ -69,4 +100,4 @@ let getAccessTokenController = async (req, res)=>{
 
 }
 
-module.exports = {registerController,loginController , getAccessTokenController}
+module.exports = {registerController,loginController , getAccessTokenController ,  logoutController}

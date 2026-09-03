@@ -7,7 +7,7 @@ const ProductCard = ({ product }) => {
       {/* Product Image */}
       <div className="flex h-72 items-center justify-center bg-muted/50 p-6">
         <Link
-          href={`/products/${product.id}`}
+          href={`/layout/products/${product.id}`}
           className="flex h-full w-full items-center justify-center"
         >
           <img

@@ -80,6 +80,25 @@ let loginService = async (data) => {
     }
 };
 
+let logoutService = async (refreshToken) => {
+    try {
+        if (!refreshToken) {
+            return;
+        }
+
+        let user = await userModel.findOne({ refreshToken });
+
+        if (user) {
+            user.refreshToken = null;
+            await user.save();
+        }
+
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+};
+
 let getAccessTokenService = async (refreshToken) => {
 
     let decoded = jwt.verify(
@@ -106,4 +125,4 @@ let getAccessTokenService = async (refreshToken) => {
     return accessToken;
 };
 
-module.exports = {registerService,loginService,getAccessTokenService }
+module.exports = {registerService,loginService,getAccessTokenService , logoutService }

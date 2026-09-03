@@ -1,11 +1,12 @@
 let express = require('express');
-const { registerController, loginController, getAccessTokenController } = require('../controllers/auth.controller');
+const { registerController, loginController, logoutController, getAccessTokenController } = require('../controllers/auth.controller');
 const authMiddleware = require('../middleware/auth.middleware')
 
 let router = express.Router()
 
 router.post('/register' , registerController )
 router.post('/login' , loginController)
+router.post('/logout', logoutController);
 router.get('/get-access', getAccessTokenController)
 router.get('/me', authMiddleware ,(req,res)=>{
     return res.status(200).json({
