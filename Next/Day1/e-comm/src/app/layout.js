@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { AuthProvider } from "@/context/authContext";
 
 
 
@@ -18,6 +19,7 @@ export default function RootLayout({ children }) {
       className={`h-full antialiased`}
     >
       <body className="h-screen gap-5 flex flex-col">
+      <AuthProvider>
       <ThemeProvider
           attribute="class"
             defaultTheme="system"
@@ -29,6 +31,7 @@ export default function RootLayout({ children }) {
           {children}
         </div>
         </ThemeProvider>
+        </AuthProvider>
       </body>
     </html>
   );

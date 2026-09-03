@@ -7,14 +7,14 @@ let registerController = async (req, res)=>{
 
     res.cookie('accessToken' , accessToken,{
         httpOnly: true,
-        sameSite : "lax",
-        secure : false,
+        sameSite: "none",
+        secure: true,
         maxAge : 24 * 60 * 60 * 1000,
     })
     res.cookie('refreshToken' , refreshToken,{
         httpOnly: true,
-        sameSite : "lax",
-        secure : false,
+        sameSite: "none",
+        secure: true,
         maxAge : 7 * 24 * 60 * 60 * 1000,
     })
 
@@ -31,15 +31,15 @@ let loginController = async (req, res) => {
 
     res.cookie('accessToken', accessToken, {
         httpOnly: true,
-        sameSite: "lax",
-        secure: false,
+        sameSite: "none",
+        secure: true,
         maxAge: 24 * 60 * 60 * 1000,
     });
 
     res.cookie('refreshToken', refreshToken, {
         httpOnly: true,
-        sameSite: "lax",
-        secure: false,
+        sameSite: "none",
+        secure: true,
         maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
@@ -58,8 +58,8 @@ let getAccessTokenController = async (req, res)=>{
 
     res.cookie('accessToken', accessToken, {
         httpOnly: true,
-        sameSite: "lax",
-        secure: false,
+        sameSite: "none",
+        secure: true,
         maxAge: 24 * 60 * 60 * 1000,
     });
 
