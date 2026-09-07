@@ -1,4 +1,5 @@
 import ProductCard from '@/components/ProductCard';
+import ProtectedRoute from '@/components/ProtectedRoute';
 import React from 'react'
 
 const page = async () => {
@@ -7,6 +8,7 @@ const page = async () => {
     console.log(products);
     
   return (
+    <ProtectedRoute>
     <div className='flex flex-wrap justify-center items-center gap-7'>
         {
             products.map((product)=>{
@@ -19,6 +21,7 @@ const page = async () => {
             })
         }
     </div>
+    </ProtectedRoute>
   )
 }
 

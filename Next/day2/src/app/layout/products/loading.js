@@ -1,25 +1,25 @@
 import React from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const loading = () => {
+const Loading = () => {
   return (
-    <main className="min-h-screen bg-gray-100 p-8">
+    <main className="min-h-screen bg-background p-8">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
 
         {Array.from({ length: 8 }).map((_, index) => (
           <div
             key={index}
-            className="w-full overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm"
+            className="w-full overflow-hidden rounded-2xl border bg-card shadow-sm"
           >
-            {/* Image Skeleton */}
-            <div className="relative flex h-72 items-center justify-center bg-gray-50 p-6">
+            {/* Product Image */}
+            <div className="relative flex h-72 items-center justify-center bg-muted p-6">
               <Skeleton className="h-full w-full rounded-xl" />
 
-              {/* Wishlist Skeleton */}
+              {/* Wishlist */}
               <Skeleton className="absolute right-4 top-4 h-10 w-10 rounded-full" />
             </div>
 
-            {/* Content */}
+            {/* Product Details */}
             <div className="p-5">
 
               {/* Category */}
@@ -44,10 +44,9 @@ const loading = () => {
                 <Skeleton className="h-4 w-12" />
               </div>
 
-              {/* Price + Button */}
+              {/* Price + Cart Button */}
               <div className="mt-5 flex items-center justify-between">
                 <Skeleton className="h-8 w-24" />
-
                 <Skeleton className="h-12 w-32 rounded-xl" />
               </div>
 
@@ -60,4 +59,5 @@ const loading = () => {
   );
 };
 
-export default loading;
+export default Loading;
+

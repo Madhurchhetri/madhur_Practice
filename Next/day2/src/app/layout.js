@@ -1,4 +1,7 @@
+
+import { ThemeProvider } from "@/components/ThemeProvider";
 import "./globals.css";
+import { AuthProvider } from "@/context/authContext";
 
 export const metadata = {
   title: "Create Next App",
@@ -8,7 +11,18 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning className={`h-full antialiased`}>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+      <AuthProvider>
+      <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+      {children}
+      </ThemeProvider>
+      </AuthProvider>
+      </body>
     </html>
   );
 }

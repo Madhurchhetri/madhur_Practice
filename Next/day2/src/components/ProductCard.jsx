@@ -3,22 +3,24 @@ import React from "react";
 
 const ProductCard = ({ product }) => {
   return (
-    <div className="group w-full max-w-sm overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+    <div className="group w-full max-w-sm overflow-hidden rounded-2xl border bg-card text-card-foreground shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
 
       {/* Product Image */}
-      <Link href={`/layout/products/${product.id}`}>
-      <div className="relative flex h-72 items-center justify-center overflow-hidden bg-gray-50 p-6">
-        
+      <div className="relative flex h-72 items-center justify-center overflow-hidden bg-muted p-6">
+
         {/* Wishlist */}
-        <button className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md transition hover:bg-red-50">
-          
-            <svg
+        <button
+          type="button"
+          className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full border bg-background shadow-md transition hover:bg-destructive/10 hover:text-destructive"
+          aria-label="Add to wishlist"
+        >
+          <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
             strokeWidth={1.8}
             stroke="currentColor"
-            className="h-5 w-5 text-gray-700"
+            className="h-5 w-5"
           >
             <path
               strokeLinecap="round"
@@ -28,29 +30,36 @@ const ProductCard = ({ product }) => {
           </svg>
         </button>
 
-        <img
-          src={product.image}
-          alt={product.title}
-          className="h-full w-full object-contain transition duration-500 group-hover:scale-105"
-        />
+        {/* Image */}
+        <Link
+          href={`/layout/products/${product.id}`}
+          className="flex h-full w-full items-center justify-center"
+        >
+          <img
+            src={product.image}
+            alt={product.title}
+            className="h-full w-full object-contain transition duration-500 group-hover:scale-105"
+          />
+        </Link>
       </div>
-      </Link>
 
       {/* Product Details */}
       <div className="p-5">
 
         {/* Category */}
-        <span className="inline-block rounded-full bg-green-100 px-3 py-1 text-xs font-semibold capitalize text-green-700">
+        <span className="inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold capitalize text-primary">
           {product.category}
         </span>
 
         {/* Title */}
-        <h2 className="mt-3 line-clamp-2 min-h-[56px] text-lg font-bold text-gray-900">
-          {product.title}
-        </h2>
+        <Link href={`/layout/products/${product.id}`}>
+          <h2 className="mt-3 min-h-[56px] line-clamp-2 text-lg font-bold text-foreground transition-colors hover:text-primary">
+            {product.title}
+          </h2>
+        </Link>
 
         {/* Description */}
-        <p className="mt-2 line-clamp-2 text-sm leading-6 text-gray-500">
+        <p className="mt-2 line-clamp-2 text-sm leading-6 text-muted-foreground">
           {product.description}
         </p>
 
@@ -72,24 +81,24 @@ const ProductCard = ({ product }) => {
                 className={`h-4 w-4 ${
                   star <= Math.round(product.rating.rate)
                     ? "text-yellow-400"
-                    : "text-gray-300"
+                    : "text-muted-foreground/30"
                 }`}
               >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth={1.5}
-                  d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.195 3.602a.563.563 0 00-.182.557l1.285 5.39a.562.562 0 01-.84.61l-4.725-2.885a.562.562 0 00-.586 0l-4.725 2.885a.562.562 0 01-.84-.61l1.285-5.39a.563.563 0 00-.182-.557L2.059 10.385c-.38-.325-.178-.948.321-.988l5.518-.442a.563.563 0 00.475-.345L10.48 3.5Z"
+                  d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.195 3.602a.563.563 0 00-.182.557l1.285 5.39a.562.562 0 01-.84.61l-4.725-2.885a.562.562 0 00-.586 0l-4.725 2.885a.562.562 0 01-.84-.61l1.285-5.39a.562.562 0 00-.182-.557L2.059 10.385c-.38-.325-.178-.948.321-.988l5.518-.442a.563.563 0 00.475-.345L10.48 3.5Z"
                 />
               </svg>
             ))}
           </div>
 
-          <span className="text-sm font-medium text-gray-700">
+          <span className="text-sm font-medium text-foreground">
             {product.rating.rate}
           </span>
 
-          <span className="text-sm text-gray-400">
+          <span className="text-sm text-muted-foreground">
             ({product.rating.count})
           </span>
         </div>
@@ -97,14 +106,16 @@ const ProductCard = ({ product }) => {
         {/* Price + Cart */}
         <div className="mt-5 flex items-center justify-between">
 
-          <div>
-            <p className="text-2xl font-bold text-gray-900">
-              ${product.price}
-            </p>
-          </div>
+          {/* Price */}
+          <p className="text-2xl font-bold text-foreground">
+            ${product.price}
+          </p>
 
-          <button className="flex items-center gap-2 rounded-xl bg-gray-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-green-600">
-            
+          {/* Add To Cart */}
+          <button
+            type="button"
+            className="flex items-center gap-2 rounded-xl bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -116,7 +127,7 @@ const ProductCard = ({ product }) => {
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25h9.75l3-9H5.106M7.5 14.25L5.106 5.272M7.5 14.25l-1.125 3.375a1.125 1.125 0 001.067 1.48h10.683M9 19.125a.375.375 0 11-.75 0 .375.375 0 01.75 0zm8.25 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
+                d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25h9.75l3-9H5.106M7.5 14.25L5.106 5.272M7.5 14.25l-1.125 3.375a1.125 1.125 0 001.067 1.48h10.683M9 19.125a.375.375 0 11-.75 0 .375.375 0 01.75 0zm8.25 0a.375.375 0 11-.75 0 .375.375 0 01-.75 0z"
               />
             </svg>
 
@@ -130,3 +141,4 @@ const ProductCard = ({ product }) => {
 };
 
 export default ProductCard;
+
