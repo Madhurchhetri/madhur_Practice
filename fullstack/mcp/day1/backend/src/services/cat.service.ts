@@ -18,3 +18,31 @@ export const getAllCatsService = async ()=>{
 export const getSingleCatService = async (id: string)=>{
     return await catModel.findById(id);
 }
+
+// search cats service
+
+export const searchCatsService = async (query: string)=>{
+    return await catModel.find({
+        $or:[
+            {
+                name:{
+                    $regex: query,
+                    $options: "i"
+                }
+            },
+            {
+                breed:{
+                    $regex: query,
+                    $options: "i"
+                }
+            }
+        ]
+    });
+}
+
+export const recommendCatsService = async (kidsFriendly: boolean , apartmentFriendly: boolean)=>{
+    return await catModel.find({
+        kidsFriendly,
+        apartmentFriendly 
+    });
+}
