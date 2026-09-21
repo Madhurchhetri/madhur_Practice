@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: codespace2-ingress
+  labels:
+    app.kubernetes.io/name: codespace2-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+      - pathType: Prefix
+        path: "/api/sandbox2"
+        backend:
+          service:
+            name: sandbox2-service
+            port: 
+              number: 80
